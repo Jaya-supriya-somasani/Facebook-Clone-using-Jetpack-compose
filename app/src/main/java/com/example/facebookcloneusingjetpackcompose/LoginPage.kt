@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.sp
 import com.example.facebookcloneusingjetpackcompose.ui.theme.*
 
 @Composable
-fun LoginPage(navigateToHome: () -> Unit, navigateToRegistration: () -> Unit) {
+fun LoginPage(navigateToHome: () -> Unit, navigateToSignUp: () -> Unit) {
     Column(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -81,7 +81,7 @@ fun LoginPage(navigateToHome: () -> Unit, navigateToRegistration: () -> Unit) {
             )
             Divider(color = Color.Gray, thickness = 0.2.dp, modifier = Modifier.weight(1F))
         }
-        CreateAccount()
+        CreateAccount(navigateToSignUp = navigateToSignUp)
     }
 }
 
@@ -173,10 +173,10 @@ fun ForgotPasswordButton() {
 }
 
 @Composable
-fun CreateAccount() {
+fun CreateAccount(navigateToSignUp: () -> Unit) {
     Spacer(modifier = Modifier.height(40.dp))
     Button(
-        onClick = { /*TODO*/ },
+        onClick = navigateToSignUp,
         modifier = Modifier.fillMaxWidth(0.8f),
         colors = ButtonDefaults.buttonColors(backgroundColor = Green)
     ) {
