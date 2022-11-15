@@ -110,7 +110,7 @@ fun Dot(shape: Shape) {
 
 @Composable
 fun PhoneNumTextField(label: String) {
-    var userInput by remember { mutableStateOf("") }
+    var userInput by rememberSaveable { mutableStateOf("") }
     TextField(
         value = userInput,
         onValueChange = { userInput = it },

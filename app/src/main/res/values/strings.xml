@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Facebook clone using Jetpack compose</string>
+    <string name="facebook_label">facebook</string>
 </resources>
