@@ -10,10 +10,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,6 +28,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
 import com.google.accompanist.pager.*
 import kotlinx.coroutines.launch
 
@@ -39,6 +37,8 @@ fun Home() {
     val personDetails = PersonDetails()
     val getData = personDetails.getPersonsDetails()
     val scrollState = rememberScrollState()
+
+    val myViewModel =MyViewModel()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -80,7 +80,7 @@ fun Home() {
         }
         Column {
             TabLayout()
-            CreatingUserFields()
+            CreatingUserFields(viewModel=myViewModel)
             LazyColumn(
                 verticalArrangement = Arrangement.Center,
                 modifier = Modifier
@@ -95,7 +95,6 @@ fun Home() {
         }
 
     }
-
 }
 
 @OptIn(ExperimentalPagerApi::class)
@@ -164,14 +163,6 @@ fun TabsContent(pagerState: PagerState) {
 @Composable
 fun TabsContentScreen() {
     Column(modifier = Modifier.fillMaxWidth()) {
-//        Text(
-//            text = data,
-//            style = MaterialTheme.typography.h5,
-//            color = Color.Green,
-//            fontWeight = FontWeight.Bold,
-//            textAlign = TextAlign.Center,
-//            fontFamily = FontFamily()
-//        )
         Text(
             buildAnnotatedString {
 
@@ -206,27 +197,42 @@ fun CustomItems(person: Person) {
 }
 
 @Composable
-fun CreatingUserFields() {
+fun CreatingUserFields(viewModel: MyViewModel) {
 
-    val userName = rememberSaveable { mutableStateOf("") }
-    val password = rememberSaveable { mutableStateOf("") }
+//    val userName = rememberSaveable { mutableStateOf("") }
+//    val password = rememberSaveable { mutableStateOf("") }
 
     OutlinedTextField(
-        value = userName.value,
-        onValueChange = { userName.value = it },
+        value = viewModel.userName,
+        onValueChange = { viewModel.userNameChanged(it) },
         label = { Text(text = "User name") }
     )
 
-    OutlinedTextField(value = password.value,
-        onValueChange = { password.value = it },
+    OutlinedTextField(value = viewModel.password,
+        onValueChange = { viewModel.passwordChanged( it) },
         label = { Text(text = "Password") }
     )
 
     Button(
         onClick = { /*TODO*/ },
-        enabled = userName.value.isNotEmpty() && password.value.isNotEmpty(), modifier = Modifier.wrapContentSize()
+        enabled = viewModel.userName.isNotEmpty() && viewModel.password.isNotEmpty(), modifier = Modifier.wrapContentSize()
     ) {
             Text(text = "Submit")
     }
 
 }
+
+class MyViewModel:ViewModel(){
+
+    var userName by  mutableStateOf("")
+    var password by mutableStateOf("")
+
+    fun userNameChanged(name:String){
+        userName=name
+    }
+    fun passwordChanged(userPassword: String){
+        password=userPassword
+    }
+
+}
+
