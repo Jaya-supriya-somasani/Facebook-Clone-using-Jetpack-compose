@@ -81,6 +81,7 @@ fun Home() {
         Column {
             TabLayout()
             CreatingUserFields(viewModel=myViewModel)
+            SnackBarDisplay()
             LazyColumn(
                 verticalArrangement = Arrangement.Center,
                 modifier = Modifier
@@ -220,6 +221,33 @@ fun CreatingUserFields(viewModel: MyViewModel) {
             Text(text = "Submit")
     }
 
+}
+
+@Composable
+fun SnackBarDisplay() {
+    Column() {
+        var snackBarState by remember { mutableStateOf(false) }
+
+        Button(onClick = {
+            snackBarState = !snackBarState
+        }) {
+
+            if (snackBarState) {
+                Text(text = "Hide Snackbar")
+            } else {
+                Text(text = "Show Snackbar")
+            }
+        }
+        if (snackBarState) {
+            Snackbar(action = {
+                Button(onClick = { /*TODO*/ }) {
+                    Text(text = "MyAction")
+                }
+            }, modifier = Modifier.padding(10.dp)) {
+                Text(text = "This is my snack bar")
+            }
+        }
+    }
 }
 
 class MyViewModel:ViewModel(){

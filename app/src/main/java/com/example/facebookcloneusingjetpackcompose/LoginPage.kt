@@ -9,8 +9,11 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -21,14 +24,17 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
-import com.example.facebookcloneusingjetpackcompose.ui.theme.*
+import com.example.facebookcloneusingjetpackcompose.ui.theme.Blue
+import com.example.facebookcloneusingjetpackcompose.ui.theme.Green
 
 @Composable
-fun LoginPage(navigateToHome: () -> Unit, navigateToSignUp: () -> Unit) {
+fun LoginPage(
+    navigateToHome: () -> Unit,
+    navigateToSignUp: () -> Unit,
+    navigateToForgotPasswordPage: () -> Unit
+) {
     Column(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -66,7 +72,7 @@ fun LoginPage(navigateToHome: () -> Unit, navigateToSignUp: () -> Unit) {
         Spacer(modifier = Modifier.height(20.dp))
         LoginButton(navigateToHome = navigateToHome)
         Spacer(modifier = Modifier.height(10.dp))
-        ForgotPasswordButton()
+        ForgotPasswordButton(navigateToForgotPasswordPage = navigateToForgotPasswordPage)
         Spacer(modifier = Modifier.height(30.dp))
         Row(
             horizontalArrangement = Arrangement.SpaceAround,
@@ -163,11 +169,13 @@ fun LoginButton(navigateToHome: () -> Unit) {
 }
 
 @Composable
-fun ForgotPasswordButton() {
+fun ForgotPasswordButton(navigateToForgotPasswordPage: () -> Unit) {
     Text(
         text = "Forgot Password",
         color = Blue,
-        modifier = Modifier.clickable { },
+        modifier = Modifier.clickable {
+            navigateToForgotPasswordPage.invoke()
+        },
         style = TextStyle(fontWeight = FontWeight.W800, fontSize = 16.sp)
     )
 }

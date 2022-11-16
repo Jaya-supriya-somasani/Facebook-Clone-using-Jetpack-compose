@@ -30,6 +30,8 @@ class MainActivity : ComponentActivity() {
                                 pageState = "Home"
                             }, navigateToSignUp = {
                                 pageState = "SignUp"
+                            }, navigateToForgotPasswordPage = {
+                                pageState = "Forgot"
                             }
                             )
                         }
@@ -38,6 +40,9 @@ class MainActivity : ComponentActivity() {
                         }
                         "SignUp" -> {
                             SignupPage()
+                        }
+                        "Forgot" -> {
+                            ForgotPasswordPage()
                         }
                     }
                 }
