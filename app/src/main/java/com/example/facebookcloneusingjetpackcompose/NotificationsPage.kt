@@ -2,6 +2,8 @@ package com.example.facebookcloneusingjetpackcompose
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -19,98 +21,62 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.facebookcloneusingjetpackcompose.ui.theme.Blue500
+import kotlin.random.Random
 
 @Composable
 fun NotificationsPage() {
     Column(
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxSize()
+        verticalArrangement = Arrangement.Center, modifier = Modifier.fillMaxSize()
     ) {
-        NotificationSearchSection()
-    }
-}
-
-@Composable
-fun NotificationSearchSection() {
-    Row(
-        horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 10.dp, vertical = 10.dp)
-    ) {
-        Text(
-            text = "Notifications",
-            fontSize = 26.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(start = 10.dp)
-        )
-        Icon(imageVector = Icons.Default.Search, contentDescription = "Search")
-    }
-    Column(horizontalAlignment = Alignment.Start) {
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 10.dp, vertical = 10.dp)
+        ) {
+            Text(
+                text = "Notifications",
+                fontSize = 26.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(start = 10.dp)
+            )
+            Icon(imageVector = Icons.Default.Search, contentDescription = "Search")
+        }
         Text(
             text = "Earlier",
             fontSize = 20.sp,
             modifier = Modifier.padding(start = 10.dp, top = 10.dp, bottom = 20.dp),
             fontWeight = FontWeight.Bold
         )
-        UnCheckedNotification()
-        UnCheckedNotification()
-        CheckedNotification()
-        CheckedNotification()
-        UnCheckedNotification()
-        CheckedNotification()
-        UnCheckedNotification()
-        CheckedNotification()
-        CheckedNotification()
+        NotificationSearchSection()
     }
 }
 
 @Composable
-fun UnCheckedNotification(){
-    Row(
+fun NotificationSearchSection() {
+    val scrollState = rememberScrollState()
+    Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .background(Blue500)
-            .padding(top = 10.dp), verticalAlignment = Alignment.CenterVertically
+            .fillMaxSize()
+            .verticalScroll(scrollState)
     ) {
-        Icon(
-            imageVector = Icons.Default.AccountCircle,
-            contentDescription = "Notification Icon",
-            modifier = Modifier
-                .padding(start = 15.dp)
-                .size(80.dp)
-                .weight(0.2f)
-        )
-        Column(modifier = Modifier
-            .weight(0.8f)
-            .padding(start = 10.dp)) {
-            Text(
-                buildAnnotatedString {
-                    withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                        append("Jaya Supriya ")
-                    }
-                    append("added a new photo.")
-                }
-            )
-            Text(text = "Wed at 20:52", color = Color.Gray, fontSize = 14.sp, modifier = Modifier.padding(top = 2.dp))
+        repeat(75) {
+            val isChecked = java.util.Random().nextBoolean()
+            CheckedNotification(isChecked = isChecked)
         }
-        Icon(
-            imageVector = Icons.Default.MoreHoriz,
-            contentDescription = "more",
-            modifier = Modifier
-                .weight(0.1f)
-
-        )
     }
 }
 
 @Composable
-fun CheckedNotification(){
+fun CheckedNotification(modifier: Modifier = Modifier, isChecked: Boolean = false) {
+    modifier
+        .fillMaxWidth()
+        .padding(top = 10.dp)
+    if (isChecked) {
+        modifier.background(Color.Cyan)
+    }
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 10.dp),
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
@@ -121,9 +87,11 @@ fun CheckedNotification(){
                 .size(80.dp)
                 .weight(0.2f)
         )
-        Column(modifier = Modifier
-            .weight(0.8f)
-            .padding(start = 10.dp)) {
+        Column(
+            modifier = Modifier
+                .weight(0.8f)
+                .padding(start = 10.dp)
+        ) {
             Text(
                 buildAnnotatedString {
                     withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
@@ -132,7 +100,12 @@ fun CheckedNotification(){
                     append("added a new photo.")
                 }
             )
-            Text(text = "Wed at 20:52", color = Color.Gray, fontSize = 14.sp, modifier = Modifier.padding(top = 2.dp))
+            Text(
+                text = "Wed at 20:52",
+                color = Color.Gray,
+                fontSize = 14.sp,
+                modifier = Modifier.padding(top = 2.dp)
+            )
         }
         Icon(
             imageVector = Icons.Default.MoreHoriz,

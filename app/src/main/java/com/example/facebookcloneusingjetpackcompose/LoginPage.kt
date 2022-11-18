@@ -33,7 +33,7 @@ import com.example.facebookcloneusingjetpackcompose.ui.theme.Green
 fun LoginPage(
     navigateToHome: () -> Unit,
     navigateToSignUp: () -> Unit,
-    navigateToForgotPasswordPage: () -> Unit
+    navigateToForgotPasswordPage: () -> Unit,
 ) {
     Column(
         verticalArrangement = Arrangement.Top,

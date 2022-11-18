@@ -1,9 +1,6 @@
 package com.example.facebookcloneusingjetpackcompose
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
@@ -25,10 +22,11 @@ import com.example.facebookcloneusingjetpackcompose.ui.theme.FacebookLabel
 import com.example.facebookcloneusingjetpackcompose.ui.theme.LightGray
 
 @Composable
-fun FriendsRequests() {
+fun FriendsRequestsPage() {
+    val scrollState = rememberScrollState()
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize().verticalScroll(scrollState)
     ) {
         FriendReqSection()
         Divider(color = Color.Gray, thickness = 1.dp, modifier = Modifier.padding(10.dp))
@@ -48,17 +46,12 @@ fun FriendsRequests() {
             )
             Text(text = "Sell All")
         }
-        FriendReqLists()
-        FriendReqLists()
-        FriendReqLists()
-        FriendReqLists()
-        FriendReqLists()
-        FriendReqLists()
-        FriendReqLists()
-        FriendReqLists()
-        FriendReqLists()
+        repeat(10) {
+            FriendReqLists()
+        }
     }
 }
+
 @Composable
 fun FriendReqSection() {
     Row(

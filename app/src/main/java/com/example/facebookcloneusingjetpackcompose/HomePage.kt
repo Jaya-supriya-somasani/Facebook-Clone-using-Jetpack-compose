@@ -33,11 +33,10 @@ import kotlinx.coroutines.launch
 fun Home() {
     val personDetails = PersonDetails()
     val getData = personDetails.getPersonsDetails()
-    val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(state = scrollState)
+//            .verticalScroll(state = scrollState)
     ) {
         TopSection()
         Column {
@@ -108,9 +107,12 @@ fun TopSection() {
 @Composable
 fun TabLayout() {
     val pagerState = rememberPagerState(pageCount = 6)
-    Column() {
+    Column(modifier = Modifier.fillMaxSize()) {
         Tabs(pagerState = pagerState)
+//        Column(modifier = Modifier.fillMaxSize().verticalScroll(scrollState)) {
         TabsContent(pagerState = pagerState)
+//        }
+
 
     }
 }
@@ -175,10 +177,10 @@ fun Tabs(pagerState: PagerState) {
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun TabsContent(pagerState: PagerState) {
-    HorizontalPager(state = pagerState) { page ->
+    HorizontalPager(state = pagerState, modifier = Modifier.fillMaxSize()) { page ->
         when (page) {
             0 -> HomePage()
-            1 -> FriendsRequests()
+            1 -> FriendsRequestsPage()
             2 -> VideosPage()
             3 -> ProfilePage()
             4 -> NotificationsPage()
@@ -189,10 +191,13 @@ fun TabsContent(pagerState: PagerState) {
 
 @Composable
 fun HomePage() {
+    val scrollState = rememberScrollState()
     Column(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(scrollState)
     ) {
         CreatePostSection()
         Divider(color = LightGray, thickness = 10.dp)

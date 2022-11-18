@@ -6,10 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.example.facebookcloneusingjetpackcompose.ui.theme.FacebookCloneUsingJetpackComposeTheme
 
@@ -23,30 +19,32 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    var pageState by remember { mutableStateOf("Login") }
-                    when (pageState) {
-                        "Login" -> {
-                            LoginPage(navigateToHome = {
-                                pageState = "Home"
-                            }, navigateToSignUp = {
-                                pageState = "SignUp"
-                            }, navigateToForgotPasswordPage = {
-                                pageState = "Forgot"
-                            }
-                            )
-                        }
-                        "Home" -> {
-                            Home()
-                        }
-                        "SignUp" -> {
-                            SignupPage()
-                        }
-                        "Forgot" -> {
-                            ForgotPasswordPage()
-                        }
-                    }
+                    Navigation()
+//                    var pageState by remember { mutableStateOf("Login") }
+//                    when (pageState) {
+//                        "Login" -> {
+//                            LoginPage(navigateToHome = {
+//                                pageState = "Home"
+//                            }, navigateToSignUp = {
+//                                pageState = "SignUp"
+//                            }, navigateToForgotPasswordPage = {
+//                                pageState = "Forgot"
+//                            }
+//                            )
+//                        }
+//                        "Home" -> {
+//                            Home()
+//                        }
+//                        "SignUp" -> {
+//                            SignupPage()
+//                        }
+//                        "Forgot" -> {
+//                            ForgotPasswordPage()
+//                        }
+//                    }
                 }
             }
         }
     }
 }
+
