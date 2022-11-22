@@ -19,6 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
+import com.example.facebookcloneusingjetpackcompose.datamodels.Friends
 import com.example.facebookcloneusingjetpackcompose.datamodels.FriendsDetails
 import com.google.accompanist.pager.*
 import kotlinx.coroutines.delay
@@ -30,30 +31,17 @@ import kotlin.math.absoluteValue
 fun ViewPagerSlider() {
     val details = FriendsDetails().getFriends()
     val pagerState = rememberPagerState(initialPage = 10)
-
-    LaunchedEffect(Unit) {
-        while (true) {
-            yield()
-            delay(2000)
-            tween<Float>(600)
-            pagerState.animateScrollToPage(
-                page = (pagerState.currentPage + 1) % (pagerState.pageCount)
-            )
-        }
-    }
-
-    Column(modifier = Modifier.fillMaxSize()) {
-        Spacer(modifier = Modifier.height(30.dp))
-        HorizontalPager(
-            count = details.size,
-            state = pagerState,
+    PagerAutoSliderUI(
+        modifier = Modifier.fillMaxSize(),
+        pageCount = details.size,
+        pagerState = pagerState
+    ) {
+        val userDetails = details[pagerState.currentPage]
+        PageContentUI(
             modifier = Modifier
-                .weight(1f)
-                .padding(0.dp, 40.dp, 0.dp, 40.dp)
-        ) { page ->
-            Card(modifier = Modifier
                 .graphicsLayer {
-                    val pageOffset = calculateCurrentOffsetForPage(page).absoluteValue
+                    val pageOffset =
+                        calculateCurrentOffsetForPage(pagerState.currentPage).absoluteValue
 
                     lerp(
                         start = 0.85f,
@@ -70,52 +58,90 @@ fun ViewPagerSlider() {
                         fraction = 1f - pageOffset.coerceIn(0f, 1f)
                     )
 
-                }
-                .fillMaxWidth()
-                .padding(25.dp, 0.dp, 25.dp, 0.dp),
-                shape = RoundedCornerShape(20.dp)
+                },
+            details = userDetails
+        )
+    }
+}
+
+@Composable
+private fun PageContentUI(modifier: Modifier, details: Friends) {
+    Card(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(25.dp, 0.dp, 25.dp, 0.dp),
+        shape = RoundedCornerShape(20.dp)
+    ) {
+
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.LightGray)
+//                .align(Alignment.CenterHorizontally)
+        ) {
+            Image(
+                painter = painterResource(
+                    id = details.image
+                ),
+                contentDescription = "Image",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize()
+            )
+
+            Column(
+                modifier = Modifier
+                    .align(Alignment.BottomStart)
+                    .padding(15.dp)
             ) {
 
-                val userDetails = details[page]
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color.LightGray)
-                        .align(Alignment.CenterHorizontally)
-                ) {
-                    Image(
-                        painter = painterResource(
-                            id = userDetails.image
-                        ),
-                        contentDescription = "Image",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.fillMaxSize()
-                    )
+                Text(
+                    text = details.name,
+                    style = MaterialTheme.typography.h5,
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold
+                )
 
-                    Column(
-                        modifier = Modifier
-                            .align(Alignment.BottomStart)
-                            .padding(15.dp)
-                    ) {
-
-                        Text(
-                            text = userDetails.name,
-                            style = MaterialTheme.typography.h5,
-                            color = Color.White,
-                            fontWeight = FontWeight.Bold
-                        )
-
-                        Text(
-                            text = "This is ${userDetails.name}",
-                            style = MaterialTheme.typography.body1,
-                            color = Color.White,
-                            fontWeight = FontWeight.Normal,
-                            modifier = Modifier.padding(0.dp, 8.dp, 0.dp, 0.dp)
-                        )
-                    }
-                }
+                Text(
+                    text = "This is ${details.name}",
+                    style = MaterialTheme.typography.body1,
+                    color = Color.White,
+                    fontWeight = FontWeight.Normal,
+                    modifier = Modifier.padding(0.dp, 8.dp, 0.dp, 0.dp)
+                )
             }
         }
+    }
+}
+
+@ExperimentalPagerApi
+@Composable
+private fun PagerAutoSliderUI(
+    modifier: Modifier = Modifier,
+    pageCount: Int,
+    pagerState: PagerState,
+    itemUi: @Composable PagerScope.(Int) -> Unit
+) {
+
+    LaunchedEffect(Unit) {
+        while (true) {
+            yield()
+            delay(2000)
+            tween<Float>(600)
+            pagerState.animateScrollToPage(
+                page = (pagerState.currentPage + 1) % (pageCount)
+            )
+        }
+    }
+
+    Column(modifier = modifier) {
+        Spacer(modifier = Modifier.height(30.dp))
+        HorizontalPager(
+            count = pageCount,
+            state = pagerState,
+            modifier = Modifier
+                .weight(1F).padding(bottom = 10.dp),
+            content = itemUi
+        )
 
         //Horizontal dot indicator
         HorizontalPagerIndicator(
