@@ -24,6 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.toFontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.facebookcloneusingjetpackcompose.datamodels.PersonDetails
 import com.example.facebookcloneusingjetpackcompose.ui.theme.FacebookLabel
 import com.example.facebookcloneusingjetpackcompose.ui.theme.LightGray
 import com.google.accompanist.pager.*
@@ -106,14 +107,10 @@ fun TopSection() {
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun TabLayout() {
-    val pagerState = rememberPagerState(pageCount = 6)
+    val pagerState = rememberPagerState(initialPage = 0)
     Column(modifier = Modifier.fillMaxSize()) {
         Tabs(pagerState = pagerState)
-//        Column(modifier = Modifier.fillMaxSize().verticalScroll(scrollState)) {
         TabsContent(pagerState = pagerState)
-//        }
-
-
     }
 }
 
@@ -141,14 +138,7 @@ fun Tabs(pagerState: PagerState) {
     TabRow(
         selectedTabIndex = pagerState.currentPage,
         backgroundColor = Color.Transparent,
-        contentColor = Color.Blue,
-        indicator = { tabPositions ->
-            TabRowDefaults.Indicator(
-                Modifier.pagerTabIndicatorOffset(pagerState, tabPositions),
-                height = 2.dp,
-                color = FacebookLabel
-            )
-        }
+        contentColor = FacebookLabel,
     )
     {
         unSelectedTabList.forEachIndexed { index, _ ->
@@ -166,7 +156,7 @@ fun Tabs(pagerState: PagerState) {
                     }
                 },
                 selectedContentColor = FacebookLabel,
-                unselectedContentColor = Color.Gray
+                unselectedContentColor = Color.Gray,
             )
         }
     }
@@ -177,7 +167,9 @@ fun Tabs(pagerState: PagerState) {
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun TabsContent(pagerState: PagerState) {
-    HorizontalPager(state = pagerState, modifier = Modifier.fillMaxSize()) { page ->
+    HorizontalPager(
+        count = 6,
+        state = pagerState, modifier = Modifier.fillMaxSize()) { page ->
         when (page) {
             0 -> HomePage()
             1 -> FriendsRequestsPage()
