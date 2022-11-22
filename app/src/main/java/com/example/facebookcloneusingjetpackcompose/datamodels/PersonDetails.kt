@@ -1,4 +1,6 @@
-package com.example.facebookcloneusingjetpackcompose
+package com.example.facebookcloneusingjetpackcompose.datamodels
+
+import com.example.facebookcloneusingjetpackcompose.datamodels.Person
 
 class PersonDetails {
     fun getPersonsDetails():List<Person>{

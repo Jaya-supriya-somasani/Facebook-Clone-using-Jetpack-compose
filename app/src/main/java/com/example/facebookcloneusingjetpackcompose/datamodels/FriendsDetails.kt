@@ -1,4 +1,5 @@
-package com.example.facebookcloneusingjetpackcompose
+package com.example.facebookcloneusingjetpackcompose.datamodels
+import com.example.facebookcloneusingjetpackcompose.R
 
 class FriendsDetails {
     fun getFriends(): List<Friends> {
