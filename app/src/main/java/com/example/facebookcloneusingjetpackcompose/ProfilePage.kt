@@ -2,7 +2,6 @@ package com.example.facebookcloneusingjetpackcompose
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,6 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.facebookcloneusingjetpackcompose.datamodels.FriendsDetails
 import com.example.facebookcloneusingjetpackcompose.ui.theme.Blue500
 import com.example.facebookcloneusingjetpackcompose.ui.theme.FacebookLabel
 import com.example.facebookcloneusingjetpackcompose.ui.theme.LightGray
