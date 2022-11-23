@@ -77,7 +77,6 @@ private fun PageContentUI(modifier: Modifier, details: Friends) {
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.LightGray)
-//                .align(Alignment.CenterHorizontally)
         ) {
             Image(
                 painter = painterResource(
@@ -122,6 +121,7 @@ private fun PagerAutoSliderUI(
     itemUi: @Composable PagerScope.(Int) -> Unit
 ) {
 
+    //Automatically sliding the images
     LaunchedEffect(Unit) {
         while (true) {
             yield()
