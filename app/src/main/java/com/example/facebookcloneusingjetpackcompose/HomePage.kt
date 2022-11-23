@@ -249,9 +249,6 @@ fun CreatePostSection() {
 fun Stories() {
     Row() {
         StoriesSection()
-        StoriesSection()
-        StoriesSection()
-        StoriesSection()
     }
 }
 
