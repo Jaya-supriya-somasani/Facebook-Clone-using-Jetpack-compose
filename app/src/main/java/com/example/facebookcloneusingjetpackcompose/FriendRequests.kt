@@ -1,16 +1,19 @@
 package com.example.facebookcloneusingjetpackcompose
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -54,6 +57,9 @@ fun FriendsRequestsPage() {
 
 @Composable
 fun FriendReqSection() {
+    var showDialog by remember {
+        mutableStateOf(false)
+    }
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -78,7 +84,9 @@ fun FriendReqSection() {
         horizontalArrangement = Arrangement.Start
     ) {
         OutlinedButton(
-            onClick = { /*TODO*/ },
+            onClick = {
+                showDialog = true
+            },
             colors = ButtonDefaults.buttonColors(LightGray),
             border = BorderStroke(0.dp, Color.Transparent),
             shape = CircleShape
@@ -94,6 +102,9 @@ fun FriendReqSection() {
         ) {
             Text(text = "Your Friends")
         }
+    }
+    AlertDialogDisplaying(showDialog) { isDismissed ->
+        showDialog = isDismissed
     }
 }
 
@@ -141,7 +152,7 @@ fun FriendReqLists() {
                     .padding(end = 5.dp)
             )
             OutlinedButton(
-                onClick = { /*TODO*/ },
+                onClick = { /* */ },
                 colors = ButtonDefaults.buttonColors(LightGray),
                 modifier = Modifier
                     .padding(5.dp)
@@ -154,4 +165,41 @@ fun FriendReqLists() {
             }
         }
     }
+}
+
+
+@Composable
+fun AlertDialogDisplaying(isOpened: Boolean, onStateChanged: (Boolean) -> Unit ) {
+    val context = LocalContext.current
+
+    if (isOpened) {
+        AlertDialog(
+            onDismissRequest = { onStateChanged(false) },
+            title = { Text(text = "Are You Sure?") },
+            text = { Text(text = "This is dialog content") },
+            confirmButton = {
+                TextButton(onClick = {
+                    onStateChanged(false)
+                    ShowToast(context, "Confirm button clicked")
+
+                }) { Text(text = "Confirm") }
+            },
+            dismissButton = {
+                TextButton(onClick = {
+                    ShowToast(context, "Dismiss button clicked")
+                    onStateChanged(false)
+
+                }) {
+                    Text(
+                        text = "" +
+                                "Dismiss"
+                    )
+                }
+            }
+        )
+    }
+}
+
+fun ShowToast(context: Context, textMsg: String) {
+    Toast.makeText(context, textMsg, Toast.LENGTH_SHORT).show()
 }
