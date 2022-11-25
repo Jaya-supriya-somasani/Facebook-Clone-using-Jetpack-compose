@@ -1,4 +1,4 @@
-package com.example.facebookcloneusingjetpackcompose.datamodels
+package com.example.facebookcloneusingjetpackcompose.model
 
 data class Friends(
     val name: String,

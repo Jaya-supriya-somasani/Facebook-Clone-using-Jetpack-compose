@@ -24,7 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.toFontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.facebookcloneusingjetpackcompose.datamodels.PersonDetails
+import com.example.facebookcloneusingjetpackcompose.model.PersonDetails
 import com.example.facebookcloneusingjetpackcompose.ui.theme.FacebookLabel
 import com.example.facebookcloneusingjetpackcompose.ui.theme.LightGray
 import com.google.accompanist.pager.*

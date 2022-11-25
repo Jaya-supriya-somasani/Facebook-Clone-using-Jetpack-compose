@@ -23,28 +23,6 @@ class MainActivity : AppCompatActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                     Navigation()
-//                    var pageState by remember { mutableStateOf("Login") }
-//                    when (pageState) {
-//                        "Login" -> {
-//                            LoginPage(navigateToHome = {
-//                                pageState = "Home"
-//                            }, navigateToSignUp = {
-//                                pageState = "SignUp"
-//                            }, navigateToForgotPasswordPage = {
-//                                pageState = "Forgot"
-//                            }
-//                            )
-//                        }
-//                        "Home" -> {
-//                            Home()
-//                        }
-//                        "SignUp" -> {
-//                            SignupPage()
-//                        }
-//                        "Forgot" -> {
-//                            ForgotPasswordPage()
-//                        }
-//                    }
                 }
             }
         }

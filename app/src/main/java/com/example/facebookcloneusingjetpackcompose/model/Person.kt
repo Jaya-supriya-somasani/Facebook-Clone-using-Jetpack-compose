@@ -1,4 +1,4 @@
-package com.example.facebookcloneusingjetpackcompose.datamodels
+package com.example.facebookcloneusingjetpackcompose.model
 
 data class Person(
     val id: Int,

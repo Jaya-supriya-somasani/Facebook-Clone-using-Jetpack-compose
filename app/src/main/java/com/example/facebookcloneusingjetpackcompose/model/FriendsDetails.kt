@@ -1,4 +1,4 @@
-package com.example.facebookcloneusingjetpackcompose.datamodels
+package com.example.facebookcloneusingjetpackcompose.model
 import com.example.facebookcloneusingjetpackcompose.R
 
 class FriendsDetails {

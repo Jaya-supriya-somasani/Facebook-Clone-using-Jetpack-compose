@@ -30,8 +30,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
-import com.example.facebookcloneusingjetpackcompose.datamodels.Friends
-import com.example.facebookcloneusingjetpackcompose.datamodels.FriendsDetails
+import com.example.facebookcloneusingjetpackcompose.model.Friends
+import com.example.facebookcloneusingjetpackcompose.model.FriendsDetails
 import com.example.facebookcloneusingjetpackcompose.ui.theme.Black500
 import com.example.facebookcloneusingjetpackcompose.ui.theme.Blue
 import com.example.facebookcloneusingjetpackcompose.ui.theme.LightGray200
