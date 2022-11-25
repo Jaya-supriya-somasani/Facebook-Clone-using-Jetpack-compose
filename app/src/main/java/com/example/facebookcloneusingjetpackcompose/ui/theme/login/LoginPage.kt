@@ -9,11 +9,8 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,8 +23,10 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.facebookcloneusingjetpackcompose.ui.theme.Blue
 import com.example.facebookcloneusingjetpackcompose.ui.theme.Green
+import com.example.facebookcloneusingjetpackcompose.ui.theme.login.LoginViewModel
 
 @Composable
 fun LoginPage(
@@ -35,6 +34,11 @@ fun LoginPage(
     navigateToSignUp: () -> Unit,
     navigateToForgotPasswordPage: () -> Unit,
 ) {
+    val loginViewModel: LoginViewModel = viewModel()
+
+    val userNameState = loginViewModel.userNameFlow.collectAsState()
+    val userNameErrorState = loginViewModel.userNameFlowError.collectAsState()
+
     Column(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -66,11 +70,23 @@ fun LoginPage(
 
         }
         Spacer(modifier = Modifier.height(30.dp))
-        PhoneNumTextField("Phone or Email")
+//        PhoneNumTextField("Phone or Email", username = {
+//            viewModel.name.value = it
+//        })
+        PhoneNumTextField(
+            label = "Phone or Email",
+            userName = userNameState.value,
+            usernameCallback = loginViewModel::updateUserName
+        )
+        if(userNameErrorState.value) {
+            Text(text = "Invalid username")
+        }
         Spacer(modifier = Modifier.height(10.dp))
         PasswordTextField(label = "Password")
         Spacer(modifier = Modifier.height(20.dp))
-        LoginButton(navigateToHome = navigateToHome)
+        LoginButton {
+            loginViewModel.validateUserFields()
+        }
         Spacer(modifier = Modifier.height(10.dp))
         ForgotPasswordButton(navigateToForgotPasswordPage = navigateToForgotPasswordPage)
         Spacer(modifier = Modifier.height(30.dp))
@@ -115,11 +131,12 @@ fun Dot(shape: Shape) {
 }
 
 @Composable
-fun PhoneNumTextField(label: String) {
-    var userInput by rememberSaveable { mutableStateOf("") }
+fun PhoneNumTextField(label: String, userName: String = "", usernameCallback: (String) -> Unit) {
     TextField(
-        value = userInput,
-        onValueChange = { userInput = it },
+        value = userName,
+        onValueChange = { name ->
+            usernameCallback(name)
+        },
         label = { Text(label) },
         singleLine = true,
         modifier = Modifier.fillMaxWidth(0.8f),
@@ -158,9 +175,9 @@ fun PasswordTextField(label: String) {
 }
 
 @Composable
-fun LoginButton(navigateToHome: () -> Unit) {
+fun LoginButton(validateUserFields: () -> Unit) {
     Button(
-        onClick = navigateToHome,
+        onClick = validateUserFields,
         modifier = Modifier.fillMaxWidth(0.8f),
         colors = ButtonDefaults.buttonColors(backgroundColor = Blue)
     ) {
